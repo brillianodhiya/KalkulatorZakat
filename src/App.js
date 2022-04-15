@@ -1,24 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { Card, Divider, Select } from "antd";
+import "./App.less";
+
+const { Option } = Select;
 
 function App() {
+  const [zakatType, setZakatType] = useState(
+    "ZAKAT HARTA YANG TELAH TERSIMPAN SATU TAHUN"
+  );
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Card
+      style={{
+        margin: "24px",
+        maxWidth: "800px",
+      }}
+    >
+      <Select
+        style={{ width: "100%" }}
+        placeholder="Pilih Jenis Zakat"
+        showSearch
+        value={zakatType}
+        onChange={(value) => setZakatType(value)}
+        optionFilterProp="children"
+        filterOption={(input, option) =>
+          option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+        }
+      >
+        <Option value="ZAKAT HARTA YANG TELAH TERSIMPAN SATU TAHUN">
+          ZAKAT HARTA YANG TELAH TERSIMPAN SATU TAHUN
+        </Option>
+      </Select>
+      <Divider />
+    </Card>
   );
 }
 

@@ -15,7 +15,7 @@ const { Step } = Steps;
 
 const { useBreakpoint } = Grid;
 
-const ZakatHarta = () => {
+const ZakatHartaUsaha = () => {
   const screens = useBreakpoint();
   const [form] = Form.useForm();
   const [current, setCurrent] = React.useState(1);
@@ -33,7 +33,7 @@ const ZakatHarta = () => {
 
   return (
     <div>
-      <p>ZAKAT HARTA YANG TELAH TERSIMPAN SATU TAHUN</p>
+      <p>ZAKAT HARTA USAHA (PERDAGANGAN / BISNIS LAINNYA)</p>
 
       <Row>
         <Col
@@ -73,11 +73,11 @@ const ZakatHarta = () => {
         >
           <Form form={form} layout="vertical" name="zakat-harta">
             <Form.Item
-              label="a. Uang Tunai, Tabungan, Deposito atau sejenisnya"
+              label="a. Nilai Kekayaan Perusahaan (termasuk uang tunai, simpanan di bank, real estate, alat produksi, inventori, barang jadi, dll)"
               initialValue={0}
               //   requiredMark="optional"
               name="a"
-              tooltip="Masukkan jumlah uang tunai, tabungan, deposito atau sejenisnya yang telah tersimpan selama satu tahun."
+              tooltip="Masukkan nilai kekayaan perusahaan (termasuk uang tunai, simpanan di bank, real estate, alat produksi, inventori, barang jadi, dll)"
             >
               <InputNumber
                 style={{ width: "100%" }}
@@ -91,11 +91,11 @@ const ZakatHarta = () => {
               />
             </Form.Item>
             <Form.Item
-              label="b. Saham atau surat-surat berharga lainnya"
+              label="b. Utang perusahaan jatuh tempo"
               initialValue={0}
               name="b"
               //   requiredMark="optional"
-              tooltip="Masukkan jumlah saham atau surat-surat berharga lainnya yang telah tersimpan selama satu tahun."
+              tooltip="Masukkan utang perusahaan jatuh tempo"
             >
               <InputNumber
                 style={{ width: "100%" }}
@@ -109,66 +109,28 @@ const ZakatHarta = () => {
               />
             </Form.Item>
             <Form.Item
-              label="c. Real Estate (tidak termasuk rumah tinggal yang dipakai sekarang)"
-              initialValue={0}
+              label="c. Komposisi Kepemilikan (dalam persen)"
+              initialValue={100}
               name="c"
               //   requiredMark="optional"
               tooltip="Masukkan jumlah aset yang telah tersimpan selama satu tahun."
             >
               <InputNumber
+                //   defaultValue={100}
                 style={{ width: "100%" }}
-                prefix="Rp. "
                 min={0}
+                max={100}
+                formatter={(value) => `${value}%`}
+                parser={(value) => value.replace("%", "")}
                 placeholder="Masukkan Nominal"
-                formatter={(value) =>
-                  `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-                }
-                parser={(value) => value.replace(/\$\s?|([.]*)/g, "")}
               />
             </Form.Item>
-            <Form.Item
-              label="d. Emas, Perak, Permata atau sejenisnya"
-              initialValue={0}
-              name="d"
-              //   requiredMark="optional"
-              tooltip="Masukkan jumlah emas, perak, permata atau sejenisnya yang telah tersimpan selama satu tahun."
-            >
-              <InputNumber
-                style={{ width: "100%" }}
-                prefix="Rp. "
-                min={0}
-                placeholder="Masukkan Nominal"
-                formatter={(value) =>
-                  `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-                }
-                parser={(value) => value.replace(/\$\s?|([.]*)/g, "")}
-              />
-            </Form.Item>
-            <Form.Item
-              label="e. Mobil (lebih dari keperluan pekerjaan anggota keluarga)"
-              initialValue={0}
-              name="e"
-              //   requiredMark="optional"
-              tooltip="Masukkan jumlah mobil yang telah tersimpan selama satu tahun."
-            >
-              <InputNumber
-                style={{ width: "100%" }}
-                prefix="Rp. "
-                min={0}
-                placeholder="Masukkan Nominal"
-                formatter={(value) =>
-                  `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-                }
-                parser={(value) => value.replace(/\$\s?|([.]*)/g, "")}
-              />
-            </Form.Item>
+
             <Form.Item
               shouldUpdate={(prevValues, curValues) =>
                 prevValues.a !== curValues.a ||
                 prevValues.b !== curValues.b ||
-                prevValues.c !== curValues.c ||
-                prevValues.d !== curValues.d ||
-                prevValues.e !== curValues.e
+                prevValues.c !== curValues.c
               }
               noStyle
             >
@@ -177,23 +139,21 @@ const ZakatHarta = () => {
                 const a = form.getFieldValue("a") ? form.getFieldValue("a") : 0;
                 const b = form.getFieldValue("b") ? form.getFieldValue("b") : 0;
                 const c = form.getFieldValue("c") ? form.getFieldValue("c") : 0;
-                const d = form.getFieldValue("d") ? form.getFieldValue("d") : 0;
-                const e = form.getFieldValue("e") ? form.getFieldValue("e") : 0;
 
-                jml = a + b + c + d + e;
+                jml = (c / 100) * (a + b);
 
                 // console.log(jml);
                 form.setFields([
                   {
-                    name: "f",
+                    name: "d",
                     value: jml,
                   },
                 ]);
 
                 return (
                   <Form.Item
-                    label="f. Jumlah Harta Simpanan (A+B+C+D+E)"
-                    name="f"
+                    label="d. Jumlah Bersih Harta Usaha (c% x (a-b))"
+                    name="d"
                     initialValue={0}
                     //   requiredMark="optional"
                     // tooltip="Masukkan jumlah harta simpanan yang telah tersimpan selama satu tahun."
@@ -213,49 +173,31 @@ const ZakatHarta = () => {
                 );
               }}
             </Form.Item>
-            <Form.Item
-              label="g. Hutang Pribadi yg jatuh tempo dalam tahun ini"
-              initialValue={0}
-              name="g"
-              //   requiredMark="optional"
-              tooltip="Masukkan jumlah hutang pribadi yang telah jatuh tempo selama satu tahun."
-            >
-              <InputNumber
-                style={{ width: "100%" }}
-                prefix="Rp. "
-                min={0}
-                placeholder="Masukkan Nominal"
-                formatter={(value) =>
-                  `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-                }
-                parser={(value) => value.replace(/\$\s?|([.]*)/g, "")}
-              />
-            </Form.Item>
+
             <Form.Item
               shouldUpdate={(prevValues, curValues) =>
-                prevValues.f !== curValues.f || prevValues.g !== curValues.g
+                prevValues.d !== curValues.d
               }
               noStyle
             >
               {() => {
                 let jml = 0;
-                const f = form.getFieldValue("f") ? form.getFieldValue("f") : 0;
-                const g = form.getFieldValue("g") ? form.getFieldValue("g") : 0;
+                const d = form.getFieldValue("d") ? form.getFieldValue("d") : 0;
 
-                jml = f - g;
+                jml = d;
 
                 // console.log(jml);
                 form.setFields([
                   {
-                    name: "h",
+                    name: "e",
                     value: jml,
                   },
                 ]);
 
                 return (
                   <Form.Item
-                    label="h. Harta simpanan kena zakat(F-G, jika &gt; nisab)"
-                    name="h"
+                    label="e. Harta usaha kena zakat (u, jika &gt; nisab)"
+                    name="e"
                     initialValue={0}
                     //   requiredMark="optional"
                     // tooltip="Masukkan jumlah harta simpanan yang telah tersimpan selama satu tahun."
@@ -275,6 +217,7 @@ const ZakatHarta = () => {
                 );
               }}
             </Form.Item>
+
             <Form.Item
               style={{
                 textAlign: "right",
@@ -300,17 +243,17 @@ const ZakatHarta = () => {
               <Divider />
               <Form.Item
                 shouldUpdate={(prevValues, curValues) =>
-                  prevValues.h !== curValues.h
+                  prevValues.e !== curValues.e
                 }
                 noStyle
               >
                 {() => {
                   let jml = 0;
-                  const h = form.getFieldValue("h")
-                    ? form.getFieldValue("h")
+                  const e = form.getFieldValue("e")
+                    ? form.getFieldValue("e")
                     : 0;
 
-                  jml = (2.5 / 100) * h;
+                  jml = (2.5 / 100) * e;
 
                   return (
                     <Statistic
@@ -318,8 +261,8 @@ const ZakatHarta = () => {
                       style={{ textAlign: "center" }}
                       title={
                         <h3>
-                          JUMLAH ZAKAT ATAS SIMPANAN YANG WAJIB DIBAYARKAN PER
-                          TAHUN (2,5% x H)
+                          JUMLAH ZAKAT ATAS HARTA USAHA YANG WAJIB DIBAYARKAN
+                          PER TAHUN (2,5% X e)
                         </h3>
                       }
                       value={`${jml}`.replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
@@ -335,4 +278,4 @@ const ZakatHarta = () => {
   );
 };
 
-export default ZakatHarta;
+export default ZakatHartaUsaha;

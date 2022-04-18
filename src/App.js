@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import { Card, Divider, Select } from "antd";
 import "./App.less";
-
-const ZakatHartaForm = React.lazy(() => import("./components/ZakatHarta"));
+import ZakatProfesi from "./components/ZakatProfesi";
+import ZakatHarta from "./components/ZakatHarta";
+import ZakatHartaUsaha from "./components/ZakatHartaUsaha";
+// import fetch from "node-fetch";
+// const ZakatProfesi = React.lazy(() => import("./components/ZakatProfesi"));
+// const ZakatHarta = React.lazy(() => import("./components/ZakatHarta"));
+// const ZakatHartaUsaha = React.lazy(() =>
+//   import("./components/ZakatHartaUsaha")
+// );
 
 const { Option } = Select;
 
@@ -12,12 +19,29 @@ function App() {
   const viewForm = (zakatType) => {
     switch (zakatType) {
       case "ZAKAT HARTA":
-        return <ZakatHartaForm />;
+        return <ZakatHarta />;
+
+      case "ZAKAT PROFESI":
+        return <ZakatProfesi />;
+
+      case "ZAKAT HARTA USAHA":
+        return <ZakatHartaUsaha />;
 
       default:
         break;
     }
   };
+
+  React.useEffect(() => {
+    const getData = async () => {
+      const response = await fetch("https://harga-emas.net/");
+      const data = await response;
+      console.log(data, "DATA");
+    };
+
+    getData();
+  }, []);
+
   return (
     <div style={{ display: "flex" }}>
       <Card
@@ -39,8 +63,10 @@ function App() {
         >
           <Option value="ZAKAT HARTA">ZAKAT HARTA</Option>
           <Option value="ZAKAT PROFESI">ZAKAT PROFESI</Option>
-          <Option value="ZAKAT HARTA USAHA">ZAKAT HARTA USAHA</Option>
-          <Option value="PERHITUNGAN NISAB">PERHITUNGAN NISAB</Option>
+          <Option value="ZAKAT HARTA USAHA">
+            ZAKAT HARTA USAHA (PERDAGANGAN / BISNIS LAINNYA)
+          </Option>
+          {/* <Option value="PERHITUNGAN NISAB">PERHITUNGAN NISAB</Option> */}
         </Select>
         <Divider />
         <div>{viewForm(zakatType)}</div>

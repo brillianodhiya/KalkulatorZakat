@@ -38,7 +38,7 @@ function App() {
     <div style={{ display: "flex" }}>
       <Card
         style={{
-          margin: "20px",
+          // margin: "20px",
           maxWidth: "800px",
         }}
       >

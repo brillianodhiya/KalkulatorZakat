@@ -1,15 +1,9 @@
 import React, { useState } from "react";
-import { Card, Divider, Select, Statistic } from "antd";
+import { Card, Divider, Select } from "antd";
 import "./App.less";
 import ZakatProfesi from "./components/ZakatProfesi";
 import ZakatHarta from "./components/ZakatHarta";
 import ZakatHartaUsaha from "./components/ZakatHartaUsaha";
-// import fetch from "node-fetch";
-// const ZakatProfesi = React.lazy(() => import("./components/ZakatProfesi"));
-// const ZakatHarta = React.lazy(() => import("./components/ZakatHarta"));
-// const ZakatHartaUsaha = React.lazy(() =>
-//   import("./components/ZakatHartaUsaha")
-// );
 
 const { Option } = Select;
 

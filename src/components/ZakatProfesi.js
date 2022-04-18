@@ -24,19 +24,19 @@ const ZakatProfesi = ({ nisab = 0, update }) => {
   const [cekHasil, setCekHasil] = React.useState(false);
 
   React.useEffect(() => {
-    if (!screens.md) {
-      setCurrent(2);
-      setCekHasil(true);
-    } else {
-      setCurrent(1);
-      setCekHasil(false);
-    }
+    // if (!screens.md) {
+    setCurrent(2);
+    setCekHasil(true);
+    // } else {
+    //   setCurrent(1);
+    //   setCekHasil(false);
+    // }
   }, [screens]);
 
   return (
     <div>
       <Row>
-        <Col
+        {/* <Col
           xs={0}
           sm={24}
           md={24}
@@ -62,7 +62,7 @@ const ZakatProfesi = ({ nisab = 0, update }) => {
               description="Hasil perhitungan zakat akan dimunculkan disini."
             />
           </Steps>
-        </Col>
+        </Col> */}
         <Col span={24}>
           <Statistic
             style={{ marginTop: "8px" }}

@@ -4,13 +4,19 @@ import "./App.less";
 import ZakatProfesi from "./components/ZakatProfesi";
 import ZakatHarta from "./components/ZakatHarta";
 import ZakatHartaUsaha from "./components/ZakatHartaUsaha";
+import moment from "moment";
+import "moment/locale/id";
+
+moment.locale("id");
 
 const { Option } = Select;
 
 function App() {
   const [zakatType, setZakatType] = useState("ZAKAT HARTA");
   const [nisab, setNisab] = useState(1110000);
-  const [update, setUpdate] = useState("18 April 2022, pukul 17:26");
+  const [update, setUpdate] = useState(
+    moment("18-04-2022 18:00", "DD-MM-YYYY HH:mm").format("LLL")
+  );
 
   const viewForm = (zakatType) => {
     switch (zakatType) {

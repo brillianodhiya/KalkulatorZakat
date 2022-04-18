@@ -39,6 +39,7 @@ function App() {
       <Card
         style={{
           // margin: "20px",
+          marginTop: "20px",
           maxWidth: "800px",
         }}
       >

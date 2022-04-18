@@ -8,14 +8,16 @@ import {
   Row,
   Statistic,
   Steps,
+  Typography,
 } from "antd";
 import React from "react";
+import { GoldOutlined } from "@ant-design/icons";
 
 const { Step } = Steps;
 
 const { useBreakpoint } = Grid;
 
-const ZakatHartaUsaha = () => {
+const ZakatHartaUsaha = ({ nisab = 0, update }) => {
   const screens = useBreakpoint();
   const [form] = Form.useForm();
   const [current, setCurrent] = React.useState(1);
@@ -33,7 +35,9 @@ const ZakatHartaUsaha = () => {
 
   return (
     <div>
-      <p>ZAKAT HARTA USAHA (PERDAGANGAN / BISNIS LAINNYA)</p>
+      <p style={{ color: "#00B171" }}>
+        ZAKAT HARTA USAHA (PERDAGANGAN / BISNIS LAINNYA)
+      </p>
 
       <Row>
         <Col
@@ -62,6 +66,21 @@ const ZakatHartaUsaha = () => {
               description="Hasil perhitungan zakat akan dimunculkan disini."
             />
           </Steps>
+        </Col>
+        <Col span={24}>
+          <Statistic
+            style={{ marginTop: "8px" }}
+            title={
+              <Typography.Title level={5}>
+                Nisab | Update: {update}
+              </Typography.Title>
+            }
+            value={`Rp. ${nisab}`.replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+            prefix={<GoldOutlined />}
+            valueStyle={{ color: "#00B171" }}
+          />
+
+          <Divider />
         </Col>
         <Col
           xs={24}
@@ -140,7 +159,7 @@ const ZakatHartaUsaha = () => {
                 const b = form.getFieldValue("b") ? form.getFieldValue("b") : 0;
                 const c = form.getFieldValue("c") ? form.getFieldValue("c") : 0;
 
-                jml = (c / 100) * (a + b);
+                jml = (c * (a - b)) / 100;
 
                 // console.log(jml);
                 form.setFields([
@@ -190,13 +209,13 @@ const ZakatHartaUsaha = () => {
                 form.setFields([
                   {
                     name: "e",
-                    value: jml,
+                    value: jml > nisab ? jml : 0,
                   },
                 ]);
 
                 return (
                   <Form.Item
-                    label="e. Harta usaha kena zakat (u, jika &gt; nisab)"
+                    label="e. Harta usaha kena zakat (d, jika &gt; nisab)"
                     name="e"
                     initialValue={0}
                     //   requiredMark="optional"
@@ -259,6 +278,7 @@ const ZakatHartaUsaha = () => {
                     <Statistic
                       prefix="Rp. "
                       style={{ textAlign: "center" }}
+                      valueStyle={{ color: "#00B171" }}
                       title={
                         <h3>
                           JUMLAH ZAKAT ATAS HARTA USAHA YANG WAJIB DIBAYARKAN

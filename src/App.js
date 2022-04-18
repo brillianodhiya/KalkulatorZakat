@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Divider, Select } from "antd";
+import { Card, Divider, Select, Statistic } from "antd";
 import "./App.less";
 import ZakatProfesi from "./components/ZakatProfesi";
 import ZakatHarta from "./components/ZakatHarta";
@@ -15,32 +15,24 @@ const { Option } = Select;
 
 function App() {
   const [zakatType, setZakatType] = useState("ZAKAT HARTA");
+  const [nisab, setNisab] = useState(1110000);
+  const [update, setUpdate] = useState("18 April 2022, pukul 17:26");
 
   const viewForm = (zakatType) => {
     switch (zakatType) {
       case "ZAKAT HARTA":
-        return <ZakatHarta />;
+        return <ZakatHarta nisab={nisab} update={update} />;
 
       case "ZAKAT PROFESI":
-        return <ZakatProfesi />;
+        return <ZakatProfesi nisab={nisab} update={update} />;
 
       case "ZAKAT HARTA USAHA":
-        return <ZakatHartaUsaha />;
+        return <ZakatHartaUsaha nisab={nisab} update={update} />;
 
       default:
         break;
     }
   };
-
-  React.useEffect(() => {
-    const getData = async () => {
-      const response = await fetch("https://harga-emas.net/");
-      const data = await response;
-      console.log(data, "DATA");
-    };
-
-    getData();
-  }, []);
 
   return (
     <div style={{ display: "flex" }}>
@@ -63,9 +55,7 @@ function App() {
         >
           <Option value="ZAKAT HARTA">ZAKAT HARTA</Option>
           <Option value="ZAKAT PROFESI">ZAKAT PROFESI</Option>
-          <Option value="ZAKAT HARTA USAHA">
-            ZAKAT HARTA USAHA (PERDAGANGAN / BISNIS LAINNYA)
-          </Option>
+          <Option value="ZAKAT HARTA USAHA">ZAKAT HARTA USAHA</Option>
           {/* <Option value="PERHITUNGAN NISAB">PERHITUNGAN NISAB</Option> */}
         </Select>
         <Divider />

@@ -8,14 +8,16 @@ import {
   Row,
   Statistic,
   Steps,
+  Typography,
 } from "antd";
 import React from "react";
+import { GoldOutlined } from "@ant-design/icons";
 
 const { Step } = Steps;
 
 const { useBreakpoint } = Grid;
 
-const ZakatProfesi = () => {
+const ZakatProfesi = ({ nisab = 0, update }) => {
   const screens = useBreakpoint();
   const [form] = Form.useForm();
   const [current, setCurrent] = React.useState(1);
@@ -60,6 +62,21 @@ const ZakatProfesi = () => {
               description="Hasil perhitungan zakat akan dimunculkan disini."
             />
           </Steps>
+        </Col>
+        <Col span={24}>
+          <Statistic
+            style={{ marginTop: "8px" }}
+            title={
+              <Typography.Title level={5}>
+                Nisab | Update: {update}
+              </Typography.Title>
+            }
+            value={`Rp. ${nisab}`.replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+            prefix={<GoldOutlined />}
+            valueStyle={{ color: "#00B171" }}
+          />
+
+          <Divider />
         </Col>
         <Col
           xs={24}
@@ -249,7 +266,7 @@ const ZakatProfesi = () => {
                 form.setFields([
                   {
                     name: "g",
-                    value: jml,
+                    value: jml > nisab ? jml : 0,
                   },
                 ]);
 
@@ -317,6 +334,7 @@ const ZakatProfesi = () => {
                     <Statistic
                       prefix="Rp. "
                       style={{ textAlign: "center" }}
+                      valueStyle={{ color: "#00B171" }}
                       title={
                         <h3>
                           JUMLAH ZAKAT PROFESI YANG WAJIB DIBAYARKAN PER TAHUN

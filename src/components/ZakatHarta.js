@@ -72,12 +72,13 @@ const ZakatHarta = ({ nisab = 0, update }) => {
             style={{ marginTop: "8px" }}
             title={
               <Typography.Title level={5}>
-                Nisab | Update: {update}
+                Emas Antam | Update: {update}
               </Typography.Title>
             }
             value={`Rp. ${nisab}`.replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
             prefix={<GoldOutlined />}
             valueStyle={{ color: "#00B171" }}
+            suffix="/gram"
           />
 
           <Divider />
@@ -91,6 +92,24 @@ const ZakatHarta = ({ nisab = 0, update }) => {
           style={{ marginTop: "12px" }}
         >
           <Form form={form} layout="vertical" name="zakat-harta">
+            <Form.Item
+              label="Nisab (85 gram emas)"
+              initialValue={nisab * 85}
+              //   requiredMark="optional"
+              name="nisab"
+            >
+              <InputNumber
+                style={{ width: "100%" }}
+                prefix="Rp. "
+                min={0}
+                placeholder="Masukkan Nominal"
+                readOnly
+                formatter={(value) =>
+                  `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+                }
+                parser={(value) => value.replace(/\$\s?|([.]*)/g, "")}
+              />
+            </Form.Item>
             <Form.Item
               label="a. Uang Tunai, Tabungan, Deposito atau sejenisnya"
               initialValue={0}
@@ -267,7 +286,7 @@ const ZakatHarta = ({ nisab = 0, update }) => {
                 form.setFields([
                   {
                     name: "h",
-                    value: jml > nisab ? jml : 0,
+                    value: jml > nisab * 85 ? jml : 0,
                   },
                 ]);
 
